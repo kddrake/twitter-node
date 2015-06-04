@@ -1,11 +1,11 @@
 # twitter-node
-Connecting to Twitter's Public Sample Stream using Node.js
+Connecting to Twitter's Public Sample Stream using Node.js to calculate and display tweet data
 
 ##Dependencies:
 - [node.js](https://nodejs.org/download/)
 
 ##Install:
-- Ensure node.js and [npm](https://www.npmjs.com/) (comes with node.js) is installed on your machine
+- Ensure [node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) (comes with node.js) are installed on your machine
 - Clone this repo
 - Run `npm install`
 

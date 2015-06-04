@@ -112,7 +112,7 @@ function logOtherStats() {
   topCount = (Stats.findTop(countries))[1]
   console.log('\nOther Statistics:')
   if(top.length > 1) {
-    console.log(' - Top Countries Geo-Tagged(each represents ' + Numeral((topCount/tweets.count)*100).format('0,0.0') +'% of all tweet)')
+    console.log(' - Top Countries from Geo-Tagging (each represents ' + Numeral((topCount/tweets.count)*100).format('0,0.0') +'% of all tweets)')
     if (top.length > 5) {
       for (var country = 0; country < 5; country++) {
         console.log('     ' + top[country])
@@ -123,7 +123,7 @@ function logOtherStats() {
       }
     }
   } else {
-    console.log(' - Top Country Geo-Tagged:\n     ' + top[0] + ' (represents ' + Numeral((topCount/tweetsCount)*100).format('0,0.0') + '% of all tweets)')
+    console.log(' - Top Country from Geo-Tagging:\n     ' + top[0] + ' (represents ' + Numeral((topCount/tweetsCount)*100).format('0,0.0') + '% of all tweets)')
   }
 
   top = (Stats.findTop(languages))[0]

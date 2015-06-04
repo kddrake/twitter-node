@@ -1,4 +1,5 @@
 var EmojiData = require('node-emoji').emoji
+var LangData = require('./languages')
 
 var emojis = {}
 var hashtags = {}
@@ -100,7 +101,9 @@ function pullCountries(tweets, tweet) {
 
 function pullLanguages(tweets, tweet) {
   if(tweets[tweet].lang !== null) {
-    ifLoop(tweets[tweet].lang, languages, 'languages')
+    var lang = tweets[tweet].lang
+    var name = LangData[lang]
+    ifLoop(name, languages, 'languages')
   }
 }
 
