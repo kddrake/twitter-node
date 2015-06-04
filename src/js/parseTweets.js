@@ -1,4 +1,4 @@
-var EmojiData = require('./emoji.json')
+var EmojiData = require('node-emoji').emoji
 
 var emojis = {}
 var hashtags = {}
@@ -31,10 +31,10 @@ function ifLoop(item, object, countRef) {
 }
 
 function pullEmoji(tweets, tweet) {
-  for (var emoji = 0; emoji < EmojiData.length; emoji++) {
-    if(tweets[tweet].text.substring(JSON.stringify(EmojiData[emoji].unified)) !== -1) {
-      count.emoji += 1
-      ifLoop(EmojiData[emoji].name, emojis, 'emojis')
+  for (var emoji in EmojiData) {
+    if(tweets[tweet].text.indexOf(EmojiData[emoji]) !== -1) {
+      count.emojis += 1
+      ifLoop(EmojiData[emoji], emojis, 'emojis')
     }
   }
 }

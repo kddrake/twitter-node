@@ -30,14 +30,15 @@ function logEmojiStats() {
   top = (Stats.findTop(emojis))[0]
   topCount = (Stats.findTop(emojis))[1]
   console.log('\nEmoji Statistics:')
-  //if(top.length > 1) {
-  //  console.log('    Top Emojis:')
-  //  for (var emoji = 0; emoji < top.length; emoji++) {
-  //    console.log('    ' + top[emoji])
-  //  }
-  //} else {
-  //  console.log('    Top Emoji:\n      ' + top[0])
-  //}
+  if(top.length > 1) {
+    console.log(' - Top Emojis (each represents ' + Numeral((topCount/Parse.uniqCount().emojis)*100).foramt('0,0.0') +  '% of emojis)')
+    for (var emoji = 0; emoji < top.length; emoji++) {
+      console.log('   ' + top[emoji])
+    }
+  } else {
+    console.log(' - Top Emoji:\n     ' + top[0] + '  (represents ' + Numeral((topCount/Parse.uniqCount().emojis)*100).format('0,0.0') + '% of emojis)')
+  }
+  console.log(' - Tweets w/ Emojis:\n     ' + Numeral((Parse.count().emojis/tweetsCount)*100).format('0,0.0') + '% (' + Parse.count().emojis + ' total)')
 }
 
 function logHashtagStats() {
@@ -101,7 +102,7 @@ function logUrlStats() {
     console.log(' - Top URL:\n     ' + top[0] + ' (represents ' + Numeral((topCount/Parse.uniqCount().urls)*100).format('0,0.0') + '% of all urls)')
   }
   console.log(' - Tweets w/ URLs:\n     ' + Numeral((Parse.count().urls/tweetsCount)*100).format('0,0.0') + '% (' + Parse.count().urls + ' total)')
-  console.log(' - Picture URLs:\n     ' + Numeral((pictureUrls/Parse.uniqCount().urls)*100).format('0,0.0') + '% (' + pictureUrls + ' total)')
+  console.log(' - Tweets w/ Picture URLs (from Instagram, pic.twitter, etc.):\n     ' + Numeral((pictureUrls/Parse.uniqCount().urls)*100).format('0,0.0') + '% (' + pictureUrls + ' total)')
 }
 
 function logOtherStats() {

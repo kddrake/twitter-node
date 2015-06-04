@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "emoji-data": "^0.2.0",
+    "node-emoji": "^0.1.0",
     "numeral": "^1.5.3",
     "twitter": "^1.2.5"
   },
