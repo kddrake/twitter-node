@@ -7,40 +7,47 @@ var domains = {}
 var countries = {}
 var languages = {}
 
+var uniqCount = { emojis: 0,
+              hashtags: 0,
+              urls: 0,
+              domains: 0,
+              countries: 0,
+              languages: 0
+}
+
+var count = {emojis: 0,
+             hashtags: 0,
+             urls: 0}
+
 var pictureUrls = 0
 
-function ifLoop(item, object) {
+function ifLoop(item, object, countRef) {
   if (item in object) {
     object[item] += 1
   } else {
+    uniqCount[countRef] += 1
     object[item] = 1
   }
 }
 
 function pullEmoji(tweets, tweet) {
-  for (var emoji = 1; emoji < EmojiData.length; emoji++) {
-    if(tweets[tweet].text.substring(EmojiData[emoji].unified) !== -1) {
-      ifLoop(EmojiData[emoji].name, emojis)
+  for (var emoji = 0; emoji < EmojiData.length; emoji++) {
+    if(tweets[tweet].text.substring(JSON.stringify(EmojiData[emoji].unified)) !== -1) {
+      count.emoji += 1
+      ifLoop(EmojiData[emoji].name, emojis, 'emojis')
     }
   }
 }
 
 function pullHashtags(tweets, tweet) {
   if(tweets[tweet].entities.hashtags.length !== 0) {
+    count.hashtags += 1
     for (var hashtag = 0; hashtag < tweets[tweet].entities.hashtags.length; hashtag++) {
-      ifLoop(tweets[tweet].entities.hashtags[hashtag].text, hashtags)
+      ifLoop(tweets[tweet].entities.hashtags[hashtag].text, hashtags, 'hashtags')
     }
   }
 }
 
-function pullUrls(tweets, tweet) {
-  if(tweets[tweet].entities.urls.length !== 0) {
-    for(var url = 0; url < tweets[tweet].entities.urls.length; url++) {
-      pullDomain(tweets[tweet].entities.urls[url].expanded_url)
-      ifLoop(tweets[tweet].entities.urls[url].expanded_url, urls)
-    }
-  }
-}
 
 function pullDomain(url) {
   var length = url.length + 1
@@ -56,19 +63,44 @@ function pullDomain(url) {
   if(url in domains) {
     domains[url] += 1
   } else {
+    uniqCount[domains] += 1
     domains[url] = 1
+  }
+}
+
+function checkPictureUrl(url){
+  if(url.indexOf('instagram') !== -1
+  || url.indexOf('pic.twitter.com') !== -1
+  || url.indexOf('twitpic') !== -1
+  || url.indexOf('tweetphoto') !== -1
+  || url.indexOf('pikchur') !== -1
+  || url.indexOf('twitgoo') !== -1
+  || url.indexOf('yfrog') !== -1
+  || url.indexOf('picktor') !== -1) {
+    pictureUrls += 1
+  }
+}
+
+function pullUrls(tweets, tweet) {
+  if(tweets[tweet].entities.urls.length !== 0) {
+    count.urls += 1
+    for(var url = 0; url < tweets[tweet].entities.urls.length; url++) {
+      pullDomain(tweets[tweet].entities.urls[url].expanded_url)
+      checkPictureUrl(tweets[tweet].entities.urls[url].expanded_url)
+      ifLoop(tweets[tweet].entities.urls[url].expanded_url, urls, 'urls')
+    }
   }
 }
 
 function pullCountries(tweets, tweet) {
   if(tweets[tweet].place !== null){
-    ifLoop(tweets[tweet].place.country, countries)
+    ifLoop(tweets[tweet].place.country, countries, 'countries')
   }
 }
 
 function pullLanguages(tweets, tweet) {
   if(tweets[tweet].lang !== null) {
-    ifLoop(tweets[tweet].lang, languages)
+    ifLoop(tweets[tweet].lang, languages, 'languages')
   }
 }
 
@@ -100,6 +132,10 @@ module.exports = {
     return urls
   },
 
+  pictureUrls : function() {
+    return pictureUrls
+  },
+
   domains : function() {
     return domains
   },
@@ -110,5 +146,13 @@ module.exports = {
 
   languages : function() {
     return languages
+  },
+
+  count : function() {
+    return count
+  },
+
+  uniqCount : function() {
+    return uniqCount
   }
 }
