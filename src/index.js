@@ -1,7 +1,7 @@
-var Numeral = require('numeral')
 var Stream = require('./js/publicStream')
 var Parse = require('./js/parseTweets')
 var Stats = require('./js/statFunctions')
+var format = require('./js/format')
 
 //{'text': [],
 //              'urls': [],
@@ -18,11 +18,11 @@ var count = {}
 var seconds = 0
 
 function logTimeStats(seconds) {
-  console.log('\n' + Stats.formatTimeInStream(seconds) + '\nTweet Statistics:')
+  console.log('\n' + format.timeInStream(seconds) + '\nTweet Statistics:')
   console.log(' - Total Tweets:\n     ' + tweetsCount)
-  console.log(' - Tweets/Second:\n     ' + Numeral(tweetsCount/seconds).format('0,0'))
-  console.log(' - Tweets/Mintue:\n     ' + Numeral(tweetsCount/seconds*60).format('0,0'))
-  console.log(' - Tweets/Hour:\n     ' + Numeral(tweetsCount/seconds*3600).format('0,0'))
+  console.log(' - Tweets/Second:\n     ' + format.percent(tweetsCount/seconds))
+  console.log(' - Tweets/Mintue:\n     ' + format.percent(tweetsCount/seconds*60))
+  console.log(' - Tweets/Hour:\n     ' + format.percent(tweetsCount/seconds*3600))
 }
 
 function logEmojiStats() {
@@ -31,14 +31,14 @@ function logEmojiStats() {
   topCount = (Stats.findTop(emojis))[1]
   console.log('\nEmoji Statistics:')
   if(top.length > 1) {
-    console.log(' - Top Emojis (each represents ' + Numeral((topCount/Parse.uniqCount().emojis)*100).foramt('0,0.0') +  '% of emojis)')
+    console.log(' - Top Emojis (each represents ' + format.percent((topCount/Parse.uniqCount().emojis)*100).foramt('0,0.0') +  '% of emojis)')
     for (var emoji = 0; emoji < top.length; emoji++) {
       console.log('   ' + top[emoji])
     }
   } else {
-    console.log(' - Top Emoji:\n     ' + top[0] + '  (represents ' + Numeral((topCount/Parse.uniqCount().emojis)*100).format('0,0.0') + '% of emojis)')
+    console.log(' - Top Emoji:\n     ' + top[0] + '  (represents ' + format.percent((topCount/Parse.uniqCount().emojis)*100) + '% of emojis)')
   }
-  console.log(' - Tweets w/ Emojis:\n     ' + Numeral((Parse.count().emojis/tweetsCount)*100).format('0,0.0') + '% (' + Parse.count().emojis + ' total)')
+  console.log(' - Tweets w/ Emojis:\n     ' + format.percent((Parse.count().emojis/tweetsCount)*100) + '% (' + Parse.count().emojis + ' total)')
 }
 
 function logHashtagStats() {
@@ -47,7 +47,7 @@ function logHashtagStats() {
   topCount = (Stats.findTop(hashtags))[1]
   console.log('\nHashtag Statistics:')
   if(top.length > 1) {
-    console.log(' - Top Hashtags (each represents ' + Numeral((topCount/Parse.uniqCount().hashtags)*100).format('0,0.0') + '% of hashtags):')
+    console.log(' - Top Hashtags (each represents ' + format.percent((topCount/Parse.uniqCount().hashtags)*100) + '% of hashtags):')
     if(top.length > 5) {
       for (var hashtag = 0; hashtag < 5; hashtag++) {
         console.log('     ' + top[hashtag])
@@ -58,9 +58,9 @@ function logHashtagStats() {
       }
     }
   } else {
-    console.log(' - Top Hashtag:\n     ' + top[0] + ' (represents ' + Numeral((topCount/Parse.uniqCount().hashtags)*100).format('0,0.0') + '% of all hashtags)')
+    console.log(' - Top Hashtag:\n     ' + top[0] + ' (represents ' + format.percent((topCount/Parse.uniqCount().hashtags)*100) + '% of all hashtags)')
   }
-  console.log(' - Tweets w/ Hashtags:\n     ' + Numeral((Parse.count().hashtags/tweetsCount)*100).format('0,0.0') + '% (' + Parse.count().hashtags + ' total)')
+  console.log(' - Tweets w/ Hashtags:\n     ' + format.percent((Parse.count().hashtags/tweetsCount)*100) + '% (' + Parse.count().hashtags + ' total)')
 }
 
 function logUrlStats() {
@@ -71,7 +71,7 @@ function logUrlStats() {
   topCount = (Stats.findTop(domains))[1]
   console.log('\nURL Statistics:')
   if(top.length > 1) {
-    console.log(' - Top Domains (each represents ' + Numeral((topCount/Parse.uniqCount().urls)*100).format('0,0.0') + '% of all urls):')
+    console.log(' - Top Domains (each represents ' + format.percent((topCount/Parse.uniqCount().urls)*100) + '% of all urls):')
     if (top.length > 5) {
       for (var domain = 0; domain < 5; domain++) {
         console.log('     ' + top[domain])
@@ -82,13 +82,13 @@ function logUrlStats() {
       }
     }
   } else {
-    console.log(' - Top Domain:\n     ' + top[0] + ' (represents ' + Numeral((topCount/Parse.uniqCount().urls)*100).format('0,0.0') + '% of all urls)')
+    console.log(' - Top Domain:\n     ' + top[0] + ' (represents ' + format.percent((topCount/Parse.uniqCount().urls)*100) + '% of all urls)')
   }
 
   top = (Stats.findTop(urls))[0]
   topCount = (Stats.findTop(urls))[1]
   if(top.length > 1) {
-    console.log(' - Top URLs (each represents ' + Numeral((topCount/Parse.uniqCount().urls)*100).format('0,0.0') + '% of all urls):')
+    console.log(' - Top URLs (each represents ' + format.percent((topCount/Parse.uniqCount().urls)*100) + '% of all urls):')
     if(top.length > 5) {
       for (var url = 0; url < 5; url++) {
         console.log('     ' + top[url])
@@ -99,10 +99,10 @@ function logUrlStats() {
       }
     }
   } else {
-    console.log(' - Top URL:\n     ' + top[0] + ' (represents ' + Numeral((topCount/Parse.uniqCount().urls)*100).format('0,0.0') + '% of all urls)')
+    console.log(' - Top URL:\n     ' + top[0] + ' (represents ' + format.percent((topCount/Parse.uniqCount().urls)*100) + '% of all urls)')
   }
-  console.log(' - Tweets w/ URLs:\n     ' + Numeral((Parse.count().urls/tweetsCount)*100).format('0,0.0') + '% (' + Parse.count().urls + ' total)')
-  console.log(' - Tweets w/ Picture URLs (from Instagram, pic.twitter, etc.):\n     ' + Numeral((pictureUrls/Parse.uniqCount().urls)*100).format('0,0.0') + '% (' + pictureUrls + ' total)')
+  console.log(' - Tweets w/ URLs:\n     ' + format.percent((Parse.count().urls/tweetsCount)*100) + '% (' + Parse.count().urls + ' total)')
+  console.log(' - Tweets w/ Picture URLs (from Instagram, pic.twitter, etc.):\n     ' + format.percent((pictureUrls/tweetsCount)*100) + '% (' + pictureUrls + ' total)')
 }
 
 function logOtherStats() {
@@ -112,7 +112,7 @@ function logOtherStats() {
   topCount = (Stats.findTop(countries))[1]
   console.log('\nOther Statistics:')
   if(top.length > 1) {
-    console.log(' - Top Countries from Geo-Tagging (each represents ' + Numeral((topCount/tweets.count)*100).format('0,0.0') +'% of all tweets)')
+    console.log(' - Top Countries from Geo-Tagging (each represents ' + format.percent((topCount/tweets.count)*100) +'% of all tweets)')
     if (top.length > 5) {
       for (var country = 0; country < 5; country++) {
         console.log('     ' + top[country])
@@ -123,13 +123,13 @@ function logOtherStats() {
       }
     }
   } else {
-    console.log(' - Top Country from Geo-Tagging:\n     ' + top[0] + ' (represents ' + Numeral((topCount/tweetsCount)*100).format('0,0.0') + '% of all tweets)')
+    console.log(' - Top Country from Geo-Tagging:\n     ' + top[0] + ' (represents ' + format.percent((topCount/tweetsCount)*100) + '% of all tweets)')
   }
 
   top = (Stats.findTop(languages))[0]
   topCount = (Stats.findTop(languages))[1]
   if(top.length > 1) {
-    console.log(' - Top Languages (each represents ' + Numeral((topCount/tweetsCount)*100).format('0,0.0') +'% of all tweets)')
+    console.log(' - Top Languages (each represents ' + format.percent((topCount/tweetsCount)*100) +'% of all tweets)')
     if (top.length > 5) {
       for (var language = 0; language < 5; language++) {
         console.log('     ' + top[language])
@@ -140,7 +140,7 @@ function logOtherStats() {
       }
     }
   } else {
-    console.log(' - Top Language:\n     ' + top[0] + ' (represents ' + Numeral((topCount/tweetsCount)*100).format('0,0.0') + '% of all tweets)')
+    console.log(' - Top Language:\n     ' + top[0] + ' (represents ' + format.percent((topCount/tweetsCount)*100) + '% of all tweets)')
   }
 }
 
