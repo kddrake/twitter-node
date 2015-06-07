@@ -10,7 +10,7 @@ var format = require('./js/format')
 //              'languages': [],
 //              'retweets': 0}
 
-var emojis, hashtags, urls, domains, countries, languages, top, topCount
+var emojis, hashtags, urls, domains, countries, languages, top, topCount, secInc, milInc
 
 var tweets = []
 var tweetsCount = 0
@@ -156,10 +156,30 @@ function logStats(seconds) {
   }
 }
 
+function setLogInterval() {
+  if(process.argv[2]) {
+    arg = Number(process.argv[2])
+    if(process.argv[2] >= 5) {
+      secInc = arg
+      console.log("- The stream's data will be logged every " + arg + " seconds")
+      milInc = arg*1000
+    } else {
+      console.log("- The stream's data will be logged every 10 seconds")
+      secInc = 10
+      milInc = 10000
+    }
+  } else {
+    console.log("- The stream's data will be logged every 10 seconds")
+    secInc = 10
+    milInc = 10000
+  }
+}
+
+setLogInterval()
 Stream.stream()
-console.log('Stream started\n')
+console.log('- Stream started\n')
 setInterval(function() {
-  seconds += 10
+  seconds += secInc
   tweets = Stream.getTweets()
   tweetsCount = Stream.getTweetsTotal()
 
@@ -170,4 +190,4 @@ setInterval(function() {
   //Display Results
   logStats(seconds)
   tweets.splice(0, tweets.length)
-}, 10000)
+}, milInc)
