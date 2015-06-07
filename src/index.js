@@ -3,13 +3,6 @@ var Parse = require('./js/parseTweets')
 var Stats = require('./js/statFunctions')
 var format = require('./js/format')
 
-//{'text': [],
-//              'urls': [],
-//              'hashtags': [],
-//              'countries': [],
-//              'languages': [],
-//              'retweets': 0}
-
 var emojis, hashtags, urls, domains, countries, languages, top, topCount, secInc, milInc
 
 var tweets = []
@@ -31,7 +24,7 @@ function logEmojiStats() {
   topCount = (Stats.findTop(emojis))[1]
   console.log('\nEmoji Statistics:')
   if(top.length > 1) {
-    console.log(' - Top Emojis (each represents ' + format.percent((topCount/Parse.uniqCount().emojis)*100).foramt('0,0.0') +  '% of emojis)')
+    console.log(' - Top Emojis (each represents ' + format.percent((topCount/Parse.uniqCount().emojis)*100) +  '% of emojis)')
     for (var emoji = 0; emoji < top.length; emoji++) {
       console.log('   ' + top[emoji])
     }
@@ -110,7 +103,7 @@ function logOtherStats() {
   languages = Parse.languages()
   top = (Stats.findTop(countries))[0]
   topCount = (Stats.findTop(countries))[1]
-  console.log('\nOther Statistics:')
+  console.log('\nOrigin and Language Statistics:')
   if(top.length > 1) {
     console.log(' - Top Countries from Geo-Tagging (each represents ' + format.percent((topCount/tweets.count)*100) +'% of all tweets)')
     if (top.length > 5) {
