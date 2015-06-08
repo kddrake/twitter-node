@@ -1,4 +1,4 @@
-# twitter-node
+# twitter-project
 Connecting to Twitter's Public Sample Stream using Node.js to calculate and display tweet data
 
 ###Dependencies:
