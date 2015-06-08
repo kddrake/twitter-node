@@ -2,10 +2,10 @@ var Twitter = require('Twitter')
 var Stats = require('./statFunctions')
 
 var client = new Twitter({
-  consumer_key: "QbwSOAvavzIg3tFAhUW6531yC",
-  consumer_secret: "60fMhDqJhrQu3AXfWhjvyAo8xSBkTv4CVgcc8Ek2DSmtvSGUX3",
-  access_token_key: "3189981193-ekQ8IS91KSna8Mp42hkOaLbXnNTnzllq6BMqxWA",
-  access_token_secret: "vXrk4YH5pWXspyGV81oGlaxskEK7K1C8MSHScyQDfN9wf",
+  consumer_key: /*Your Consumer Key goes here*/,
+  consumer_secret: /*Your Secret Consumer Key goes here*/,
+  access_token_key: /*Your Access Token goes here*/,
+  access_token_secret: /*Your Secret Access Token goes here*/
 })
 
 var tweets = []
