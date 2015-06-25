@@ -6,6 +6,8 @@ Connecting to Twitter's Public Sample Stream using Node.js to calculate and disp
 
 ###Install:
 - Ensure [node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) (comes with node.js) are installed on your machine
+- Clone this repo
+- Run `npm install`
 - Create your [twitter credentials](https://apps.twitter.com/) and place each corresponding key in the commented out section of src/js/publicStream.js:
 ``` 
 var client = new Twitter({
@@ -15,8 +17,6 @@ var client = new Twitter({
   access_token_secret: /*Your Secret Access Token goes here*/
 })
 ```
-- Clone this repo
-- Run `npm install`
 
 ###Run:
 ####Default:
