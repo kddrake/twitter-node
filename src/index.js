@@ -24,12 +24,12 @@ function logEmojiStats() {
   topCount = (Stats.findTop(emojis))[1]
   console.log('\nEmoji Statistics:')
   if(top.length > 1) {
-    console.log(' - Top Emojis (each represents ' + format.percent((topCount/Parse.uniqCount().emojis)*100) +  '% of emojis)')
+    console.log(' - Top Emojis (each represents ' + format.percent((topCount/Parse.count().emojis)*100) +  '% of emojis)')
     for (var emoji = 0; emoji < top.length; emoji++) {
       console.log('   ' + top[emoji])
     }
   } else {
-    console.log(' - Top Emoji:\n     ' + top[0] + '  (represents ' + format.percent((topCount/Parse.uniqCount().emojis)*100) + '% of emojis)')
+    console.log(' - Top Emoji:\n     ' + top[0] + '  (represents ' + format.percent((topCount/Parse.count().emojis)*100) + '% of emojis)')
   }
   console.log(' - Tweets w/ Emojis:\n     ' + format.percent((Parse.count().emojis/tweetsCount)*100) + '% (' + Parse.count().emojis + ' total)')
 }
